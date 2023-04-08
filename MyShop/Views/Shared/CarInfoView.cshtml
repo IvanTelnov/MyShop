@@ -1,0 +1,10 @@
+﻿@model CarInfo
+
+<div class="col-lg-4">
+	<img class="img-thumbnail" src="~/img/@Model.ImagePath" alt="@Model.Name" style="height:200px;width:auto" />
+	<h2>@Model.Name</h2>
+	<p>@Model.ShortDescription</p>
+	<p>Цена: @Model.Price.ToString("c")</p>
+	<p>Категория: @Model.Category</p>
+	<p><a class="btn btn-warning" asp-area="" asp-controller="Home" asp-action="Show" asp-route-id="@Model.Id">Подробнее</a></p>
+</div>

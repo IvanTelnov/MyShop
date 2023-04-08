@@ -1,0 +1,42 @@
+﻿@model Profile
+@{
+    ViewBag.Title = "Редактирование профиля";
+}
+
+<div style="margin-top:70px">
+<h2>@ViewBag.Title</h2>
+    <div class="container">
+        <form asp-area="" asp-controller="Profile" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Email" />
+
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="container mt-3">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" />
+                <span asp-validation-for="UserName"></span>
+            </div>
+            <div class="container mt-3">
+                <label asp-for="Sex"></label>
+                <select id="selectvalue" asp-for="Sex">
+                    <option>Мужской</option>
+                    <option>Женский</option>
+                </select>
+                <span asp-validation-for="Sex"></span>
+            </div>
+            <div class="container mt-3">
+                <label asp-for="BirthDate"></label>
+                <input type="date" asp-for="BirthDate"/>
+                <span asp-validation-for="BirthDate"></span>
+            </div>
+            <div class="container mt-3">
+                <label asp-for="ImagePath"></label>
+                <input type="file" name="formFile" id="formFile" />
+                <div>
+                    <img class="img-thumbnail" src="~/img/@Model.ImagePath" alt="@Model.UserName" style="height:200px;width:auto" />
+                </div>
+            </div>
+            <input asp-controller="Profile" asp-action="Edit" type="submit" value="Сохранить" />
+        </form>
+    </div>
+</div>

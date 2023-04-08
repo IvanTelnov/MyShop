@@ -1,0 +1,63 @@
+﻿@model CarInfo
+@{
+    string strTitle = "Редактировать запись";
+    ViewBag.Title = strTitle;
+}
+
+<script src="~/js/ckeditor/ckeditor.js"></script>
+
+<div>
+    <h2>@strTitle</h2>
+    <div class="container mt-5">
+        <form asp-area="Admin" asp-controller="CarInfo" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="All"></div>
+            <div class="container mt-3">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" />
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="container mt-3">
+                <label asp-for="ShortDescription"></label>
+                <input asp-for="ShortDescription"/>
+                <span asp-validation-for="ShortDescription"></span>
+            </div>
+            <div class="container mt-3">
+                <label asp-for="FullDescription"></label>
+                <textarea asp-for="FullDescription"></textarea>
+                <span asp-validation-for="FullDescription"></span>
+            </div>
+            <div class="container mt-3">
+                <label asp-for="Category"></label>
+                <select id="selectvalue" asp-for="Category">
+                    <option>Электромобиль</option>
+                    <option>ДВС</option>
+                </select>
+                <span asp-validation-for="Category"></span>
+            </div>
+            <div class="container mt-3">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" />
+                <span asp-validation-for="Price"></span>
+            </div>
+            <div class="container mt-3">
+                <label asp-for="ImagePath"></label>
+                <input type="file" name="imageFile" id="imageFile" />
+                <div>
+                    <img class="img-thumbnail" src="~/img/@Model.ImagePath" alt="@Model.Name" style="height:200px;width:auto" />
+                </div>
+            </div>
+            <input type="submit" value="Сохранить" />
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    window.onload = function () {
+        var newCKEdit = CKEDITOR.replace('@Html.IdFor(x=>x.FullDescription)');
+        newCKEdit.updateElement();
+    }
+</script>

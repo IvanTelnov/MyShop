@@ -1,0 +1,71 @@
+﻿@model Cart
+
+@{
+    ViewBag.Title = "Ваша корзина";
+}
+
+<h2 style="margin-top:60px">Ваша корзина</h2>
+<div>
+    <div>
+    <table class="container" style="margin-top:30px">
+        <thead>
+            <tr>
+                <th>Кол-во</th>
+                <th>Автомобиль</th>
+                <th class="text-right">Цена</th>
+                <th class="text-right">Общая цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model.Items != null)
+            {
+                foreach (var line in Model.Items)
+                {
+                    if (line != null)
+                    {    
+                    <tr style="border:groove; border-color:black; border-width:1px">
+                        <td class="text-center"> @line.Quantity </td>
+                        <td class="text-left mark"><a asp-area="" asp-controller="Home" asp-action="Show" asp-route-id="@line.CarId">@line.Name</a></td>
+                        <td class="text-right">@line.Price.ToString("c")</td>
+                        <td class="text-right mark">
+                            @((line.Quantity * line.Price).ToString("c"))
+                        </td>
+                        <td class="text-center">
+                            <form class="d-flex" asp-area="" asp-controller="Cart" method="post">
+                                <input asp-action="RemoveFromCart" asp-route-codeword="dec" asp-route-id="@line.CarId" asp-route-iscart="true" type="submit" class="btn btn-warning me-1" value="-1" />
+                                <input asp-action="RemoveFromCart" asp-route-id="@line.CarId" asp-route-iscart="true" type="submit" class="btn btn-warning me-1" value="Удалить товар" />
+                                <input asp-action="AddToCart" asp-route-id="@line.CarId" asp-route-iscart="true" type="submit" class="btn btn-warning" value="+1" />
+                            </form>
+                        </td>
+                    </tr>
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr style="border:groove; border-color:black; border-width:1px;">
+                <td colspan="3" class="text-center">Итого:</td>
+                @{
+                    decimal totalValue = 0;
+                    if(Model.Items != null)
+                    {       
+                        foreach(var item in Model.Items)
+                        {
+                            if (item != null)
+                            {
+                                totalValue += item.Quantity * item.Price;
+                            }
+                        }
+                    }
+                    }
+                <td class="text-right">
+                    @totalValue.ToString("c")
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+    <div>
+        <form style="margin-top:10px"><input class="btn btn-warning" type="submit" asp-area="" asp-controller="Cart" asp-action="Checkout" value="Оформить заказ" /></form>
+    </div>
+</div>

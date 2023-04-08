@@ -1,0 +1,55 @@
+﻿@model IQueryable<CarInfo>
+@{
+    string strTitle = "Панель администратора";
+    ViewBag.Title = strTitle;
+}
+
+<div>
+    <h2>@strTitle</h2>
+    <div class="container mt-5">
+        <h3>Машины</h3>
+        <div class="container">
+            <a asp-area="Admin" asp-controller="CarInfo" asp-action="Edit" asp-route-id="">Добавить машину</a>
+        </div>
+        @if (Model.Any())
+        {
+            <div>
+                @foreach (CarInfo entity in Model)
+                {
+                    <div class="container">
+                        <a asp-area="Admin" asp-controller="CarInfo" asp-action="Edit" asp-route-id="@entity.Id">Редактировать</a>
+                        |
+                        <form style="display: inline-block;" id="form-@entity.Id" asp-area="Admin" asp-controller="CarInfo" asp-action="Delete" method="post">
+                            <input type="hidden" name="id" value="@entity.Id">
+                            <a href="#" onclick="document.getElementById('form-@entity.Id').submit();">Удалить</a>
+                        </form>
+                        |
+                        <a asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="@entity.Id">
+                            @($"{entity.Name}")
+                        </a>
+                    </div>
+                }
+            </div>
+            <div style="margin-top:20px">
+                <h3>Количество на складе</h3>
+                @foreach(CarInfo entity in Model)
+                {
+                    <div class="container" style="margin-top:10px">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="@entity.Id">
+                            @($"{entity.Name}")
+                        </a>
+                        |
+                        <form style="display: inline-block;" asp-area="Admin" asp-controller="Home" asp-action="EditQuantity" asp-route-id ="@entity.Id" method="post">
+                            <input type="number" name="Quantity" />
+                            <button type="submit" value="Установить"/>
+                        </form>
+                        |
+                        <a>Количество на складе: @entity.Quantity</a>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+

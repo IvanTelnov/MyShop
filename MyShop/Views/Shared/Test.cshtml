@@ -1,0 +1,12 @@
+﻿@model ISession
+
+<div>
+	ИД: @Model.Id
+	@foreach(var item in Model.Keys)
+	{
+		<a>@item </a>
+	}
+	@{
+		var a = Model.Get("Cart");
+	}
+</div>
