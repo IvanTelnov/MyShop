@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyShop.Domain;
 using MyShop.Domain.Entities;
+using MyShop.Models;
 using MyShop.Services;
 using System;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MyShop.Controllers
 {
@@ -104,15 +108,8 @@ namespace MyShop.Controllers
                 return Redirect($"/Home/Show/{id}");
         }
 
-        public IActionResult Checkout()
-        {
-            var cart = _contextAccessor.HttpContext?.Session.GetCart();
-            var products = cart?.Items;
-            return View(new Order { CustomerName = User.FindFirstValue(ClaimTypes.Name), Products = products });
-        }
-
-        //Метод достающий из сессии корзину или создающий корзину, если нет, и добавляющий в сессию
-        private Cart GetOrCreateCart_Session()
+		//Метод достающий из сессии корзину или создающий корзину, если нет, то добавляющий в сессию
+		private Cart GetOrCreateCart_Session()
         {
             Cart? cart = _contextAccessor?.HttpContext?.Session.GetCart();
             if (cart == null)
